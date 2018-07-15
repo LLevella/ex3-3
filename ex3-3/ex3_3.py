@@ -27,7 +27,6 @@ def get_friends_from_get_request():
         'fields': 'city'
         }
     requests_for_friends = requests.get(FRIENDS_SERVER, params=friends_get_params)
-    pprint.pprint(requests_for_friends.json())
     dict_friends_from_request = requests_for_friends.json()
     return dict_friends_from_request
 
@@ -55,7 +54,8 @@ def output_list_of_friends(dict_friends_from_request):
                     city = item['city']['title']
             print('{} {} {}'.format(first_name, last_name, city))
 
+if __name__ == "__main__":
 
-dict_friends_from_request = get_friends_from_get_request()
-error_handler(dict_friends_from_request)
-output_list_of_friends(dict_friends_from_request)
+    dict_friends_from_request = get_friends_from_get_request()
+    if not error_handler(dict_friends_from_request):
+        output_list_of_friends(dict_friends_from_request)
