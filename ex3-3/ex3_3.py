@@ -1,9 +1,10 @@
 import requests
 import urllib
+import json
 
 APP_ID = '6633040'
-AUTH_SERVER = 'https://api.vk.com/authorize'
-TOKEN = '04cdbc464ff1a0e9fc8b02684f7585927e4c6553d9aeb55293303707c97e49d2f25c620f810a3a0de0de5'
+AUTH_SERVER = 'https://oauth.vk.com/authorize'
+TOKEN = 'cdfb7ea64b545a71a2cfea657aac9112e7d2223869bf5e7b9b0a01c6f3cf4d570ed0f58ca46b2e2f73aaa'
 auth_data = {
     'client_id': APP_ID,
     'display': 'popup',
@@ -12,15 +13,16 @@ auth_data = {
     'response_type': 'token',
     'v': '5.80'
     }
+print('?'.join((AUTH_SERVER, urllib.parse.urlencode(auth_data))))
+
 
 FRIENDS_SERVER = 'https://api.vk.com/method/friends.get'
-friend_get_params = {
+friends_get_params = {
+    'access_token': TOKEN,
+    'v': '5.80',
     'order': 'name',
-    'fields': 'city',
-    'ACCESS_TOKEN': TOKEN,
-    'v': '5.80'
+    'fields': 'city'
     }
-
-requests_for_friends = requests.get(FRIENDS_SERVER, params=friend_get_params)
-#dict_friends_from_request = json.loads(requests_for_friends.text)
-print(requests_for_friends.text)
+requests_for_friends = requests.get(FRIENDS_SERVER, params=friends_get_params)
+print(requests_for_friends.json())
+dict_friends_from_request = requests_for_friends.json()
