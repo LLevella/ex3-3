@@ -8,6 +8,7 @@ AUTH_SERVER = 'https://oauth.vk.com/authorize'
 FRIENDS_SERVER = 'https://api.vk.com/method/friends.get'
 TOKEN = 'cdfb7ea64b545a71a2cfea657aac9112e7d2223869bf5e7b9b0a01c6f3cf4d570ed0f58ca46b2e2f73aaa'
 
+
 def create_straddres_for_token_extraction():
     auth_data = {
         'client_id': APP_ID,
@@ -18,6 +19,7 @@ def create_straddres_for_token_extraction():
         'v': '5.80'
         }
     return '?'.join((AUTH_SERVER, urllib.parse.urlencode(auth_data)))
+
 
 def get_friends_from_get_request():
     friends_get_params = {
@@ -30,6 +32,7 @@ def get_friends_from_get_request():
     dict_friends_from_request = requests_for_friends.json()
     return dict_friends_from_request
 
+
 def error_handler(dict_friends_from_request):
     if 'error' in dict_friends_from_request:
         print(dict_friends_from_request['error']['error_msg'])
@@ -37,10 +40,10 @@ def error_handler(dict_friends_from_request):
         return True
     return False
 
+
 def output_list_of_friends(dict_friends_from_request):
     if dict_friends_from_request['response']:
         print ("Друзей найдено: {}".format(dict_friends_from_request['response']['count']))
-    
         for item in dict_friends_from_request['response']['items']:
             first_name = 'Имя не указано'
             if 'first_name' in item:
@@ -53,6 +56,7 @@ def output_list_of_friends(dict_friends_from_request):
                 if item['city']['title']:
                     city = item['city']['title']
             print('{} {} {}'.format(first_name, last_name, city))
+
 
 if __name__ == "__main__":
 
